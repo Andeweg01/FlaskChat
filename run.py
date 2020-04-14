@@ -8,6 +8,10 @@ def add_messages(username, message):
     """Add messages to the `messages` list"""
     messages.append("{}: {}".format(username, message))
 
+def get_all_messages():
+    """Get all the messages and separate them with a br tag"""
+    return "<br>".join(messages)
+
 @app.route('/')
 def index():
     """Main page with instructions"""
@@ -16,13 +20,13 @@ def index():
 @app.route('/<username>')
 def user(username):
     """Display chat messages"""
-    return "Welcome, {0} - {1}".format(username, messages)
+    return "<h1>Welcome, {0}</h1>{1}".format(username, messages)
 
 @app.route('/<username>/<message>')
 def send_message(username, message):
     """Create a new message and redirect back to the chat page"""
     add_messages(username, message)
-    return redirect(username)
+    return redirect("/" + username)
 
 app.run(host=os.getenv('IP', '0.0.0.0'), 
     port=int(os.getenv('PORT', '5000')), 
